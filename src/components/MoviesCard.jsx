@@ -14,7 +14,8 @@ const MoviesCard = (props) => {
     }, []);
 
     const fetchMovies = async() => {
-        const {data} = await axios.get(`${API_URL}trending/movie/week?language=en-US`, {
+        const {data} = await axios.get(`${API_URL}trending/movie/week?language=en-US`,
+        {
             params: {
                 api_key: API_KEY
             }

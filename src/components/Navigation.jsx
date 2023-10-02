@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../stylings/navigation.css';
+import SearchBar from './SearchBar.jsx';
 
 const Navigation = (props) => {
   const [navBar, setNavBar] = useState(true);
@@ -47,14 +48,7 @@ const Navigation = (props) => {
           <Link to='/'><div className={`logo ${sideNav ? 'is-hidden' : ''}`}>Cinera</div></Link>
 
           {/* Search Bar */}
-          <div className='search-bar'>
-            <input type='text' placeholder='Search' className='search-input' />
-            <Link to='search-results'>
-              <button className='search-icon-wrapper'>
-                <FontAwesomeIcon icon='fa-solid fa-magnifying-glass fa-1x' className='search-icon' />
-              </button>
-            </Link>
-          </div>
+          <SearchBar />
 
           {/* Navigation Menu */}
           <nav className='navigation-menu'>
