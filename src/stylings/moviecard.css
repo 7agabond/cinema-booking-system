@@ -1,0 +1,29 @@
+.movie-card {
+}
+
+.movie-image-placeholder:hover ~ .movie-title {
+    color: var(--accent-two);
+}
+
+.front {
+    border: var(--primary) 0.125rem solid;
+    border-radius: 1rem;
+    height: 20rem;
+    width: 13rem;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: all 0.8s ease;
+    backface-visibility: hidden;
+    text-align: center;
+}
+
+.back {
+    position: absolute;
+    backface-visibility: hidden;
+    text-align: center;
+    transform: rotateY(180deg);
+}
+
+.flipCard {
+    transform: rotateY(180deg)
+}

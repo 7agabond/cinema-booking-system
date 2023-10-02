@@ -1,43 +1,44 @@
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from "react";
+import MovieCard from "./MovieCard.js"
+
+const API_URL = "https://api.themoviedb.org/3/"
+const API_KEY = "8d517deb777b86cccc91638c870c1b89"
+
+
 
 const Trending = () => {
-  return (
-    <section className='section-wrapper'>
-      <div className='section-container'>
-        <div className='movies-card'>
-          <h2>Trending</h2>
-          <div className='movies'>
-            <div className='movie'>
-              <div className='movie-image-placeholder'></div> {/* For testing purposes */}
-              <h3 className='movie-title'>Movie one</h3>
-              <div className='movie-info'>2 HR 15 MIN • PG</div>
-            </div>
-            <div className='movie'>
-              <div className='movie-image-placeholder'></div> {/* For testing purposes */}
-              <h3 className='movie-title'>Movie two</h3>
-              <div className='movie-info'>1 HR 54 MIN • PG13</div>
-            </div>
-            <div className='movie'>
-              <div className='movie-image-placeholder'></div> {/* For testing purposes */}
-              <h3 className='movie-title'>Movie three</h3>
-              <div className='movie-info'>3 HR • Rated R</div>
-            </div>
-            <div className='movie'>
-              <div className='movie-image-placeholder'></div> {/* For testing purposes */}
-              <h3 className='movie-title'>Movie four</h3>
-              <div className='movie-info'>2 HR 7 MIN • PG13</div>
-            </div>
-            <div className='movie'>
-              <div className='movie-image-placeholder'></div> {/* For testing purposes */}
-              <h3 className='movie-title'>Movie five</h3>
-              <div className='movie-info'>1 HR 49 MIN • Rated R</div>
+
+    const [movies, setMovies] = useState([])
+    useEffect(() => { fetchMovies() }, [])
+
+    const fetchMovies = async () => {
+        const { data } = await axios.get(`${API_URL}trending/movie/week?language=en-US`, {
+            params: {
+                api_key: API_KEY
+            }
+        })
+        setMovies(data.results)
+    }
+
+      return (
+        <section className='section-wrapper'>
+          <div className='section-container'>
+            <div className='movies-card'>
+              <h2>Trending This Week</h2>
+                <div className='movies'>
+                          {movies.map(movie => (
+                              <div className='movie' key={movie.id}>
+                                  <MovieCard key={movie.id} movie={movie} poster={movie.poster_path} />
+                              </div>
+                          ))}
+                </div>
+              <Link to='trending'><button className='CTA-button-one'>View all</button></Link>
             </div>
           </div>
-          <Link to='trending'><button className='CTA-button-one'>View all</button></Link>
-        </div>
-      </div>
-    </section>
-  )
-}
+        </section>
+      )
+    }
 
 export default Trending;

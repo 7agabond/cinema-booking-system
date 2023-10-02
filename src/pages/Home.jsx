@@ -5,6 +5,7 @@ import TemporaryComingSoon from '../components/TemporaryComingSoon';
 import PromoSubscription from '../components/PromoSubscription';
 import Footer from '../components/Footer';
 import '../stylings/home.css';
+import '../stylings/moviecard.css';
 
 const Home = () => {
   return (

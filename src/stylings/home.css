@@ -49,18 +49,6 @@
     overflow-x: scroll;
 }
 
-.movie-image-placeholder { /** --- For testing purposes --- **/
-    border: var(--primary) 0.125rem solid;
-    border-radius: 1rem;
-    height: 20rem;
-    width: 13rem;
-    cursor: pointer;
-}
-
-.movie-image-placeholder:hover ~ .movie-title {
-    color: var(--accent-two);
-}
-
 .movie-title {
     color: var(--primary);
     font-size: 1.25rem;
