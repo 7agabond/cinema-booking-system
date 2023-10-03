@@ -1,33 +1,39 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
 const SearchBar = () => {
-    const SEARCH_PATH = 'https://api.themoviedb.org/3/search/movie';
+    const SEARCH_PATH = 'https://api.themoviedb.org/3/search/movie?';
     
     const [query, setQuery] = useState("");
     const [movies, setMovies] = useState([]);
     const API_KEY = '8d517deb777b86cccc91638c870c1b89';
+    
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-    const handleSubmit = async(event) => {
+        const query_url = `${SEARCH_PATH}query=${query}&language=en-US`;
+        console.log(query_url);
+
         const options = {
             method: 'GET',
-            url: `${SEARCH_PATH}?query=${query}&include_adult=false&language=en-US&page=1`,
+            url: query_url,
             headers: {
                 accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZDUxN2RlYjc3N2I4NmNjY2M5MTYzOGM4NzBjMWI4OSIsInN1YiI6IjY1MTYyOGU4YTE5OWE2MDBjNDljZTA2OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fucbYcepOY0pWh2WQI7Zkyy29pOADVUfv9YdpPdXruk'
+                Authorization: `Bearer ${API_KEY}`
             }
         };
 
         axios
-            .get(options)
+            .request(options)
             .then(function (response) {
-                setMovies(response.data);
+                console.log(response.data);
             })
             .catch(function (error) {
                 console.error(error);
             });
-    }    
+    }
 
     return (
         <form className='search-bar' onSubmit={handleSubmit}>
@@ -35,9 +41,9 @@ const SearchBar = () => {
                 type='text' placeholder='Search' className='search-input'
                 onChange={(e) => setQuery(e.target.value)}
             />
-            <button className='search-icon-wrapper' onClick={handleSubmit}>
+            <button className='search-icon-wrapper' >
                 <FontAwesomeIcon icon='fa-solid fa-magnifying-glass fa-1x' className='search-icon' />
-            </button>
+             </button>
         </form>
     )
 }
