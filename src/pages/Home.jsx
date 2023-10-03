@@ -5,7 +5,9 @@ import '../stylings/home.css';
 
 const Home = () => {
   return (
-    <div className='home'>
+      <div className='home'>
+          <div className="seach-card" id="search">
+          </div>
       <Hero />
       <section className='section-wrapper'> {/* Trending */}
         <div className='section-container'>

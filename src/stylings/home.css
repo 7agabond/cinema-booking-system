@@ -38,9 +38,16 @@
     row-gap: 2.25rem;
 }
 
-.movies-card a {
-    width: fit-content;
-    align-self: end;
+.search-card {
+    visibility: hidden;
+    background-color: var(--accent-four);
+    border-radius: 2rem;
+    color: var(--primary);
+    width: 100%;
+    padding: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.25rem;
 }
 
 .movies {
