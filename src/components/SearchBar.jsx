@@ -10,13 +10,23 @@ const SearchBar = () => {
     const API_KEY = '8d517deb777b86cccc91638c870c1b89';
 
     const handleSubmit = async(event) => {
-        const {data} = await axios.get(`${SEARCH_PATH}?query=${query}&include_adult=true&language=en-US&page=1`,
-        {
-            params: {
-                api_key: API_KEY
+        const options = {
+            method: 'GET',
+            url: `${SEARCH_PATH}?query=${query}&include_adult=false&language=en-US&page=1`,
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZDUxN2RlYjc3N2I4NmNjY2M5MTYzOGM4NzBjMWI4OSIsInN1YiI6IjY1MTYyOGU4YTE5OWE2MDBjNDljZTA2OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fucbYcepOY0pWh2WQI7Zkyy29pOADVUfv9YdpPdXruk'
             }
-        })
-        setMovies(data.results);
+        };
+
+        axios
+            .get(options)
+            .then(function (response) {
+                setMovies(response.data);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
     }    
 
     return (
