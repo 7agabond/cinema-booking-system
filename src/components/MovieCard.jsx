@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 const MovieCard = ({movie}) => {
-    const moviePosterImage = 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
+    const moviePosterImage = movie.poster_path;
 
     // Poster Flip
     const [isFlipped, setIsFlipped] = useState(false);
@@ -12,17 +12,35 @@ const MovieCard = ({movie}) => {
         setIsFlipped(!isFlipped);
     };
 
+    // Finding Video ID
+    function getYouTubeVideoId(url) {
+        // Regular expression to match YouTube URLs and extract the video ID
+        const regex = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?feature=player_embedded&v=|watch\?feature=player_embedded&v=|embed\/videoseries\?list=|user\/\S+\/\S+|v=))([^?&"'>]+)/;
+      
+        const match = url.match(regex);
+      
+        if (match && match[1]) {
+          return match[1];
+        } else {
+          return null; // Video ID not found
+        }
+      }
+      
+      
+
     // Movie Trailer
     const [showTrailer, setShowTrailer] = useState(false);
     const [youtubeKey, setYoutubeKey] = useState('');
-    const handleTrailer = async (event) => {
+    const handleTrailer = async (event, movie) => {
         event.stopPropagation();
 
         try {
-            const response = await axios.get(`http://localhost:8000/api/get-movies/${movie.id}/`);
-            const youtubeVideo = response.data.results.find(video => video.site === 'YouTube');
-            if (youtubeVideo) {
-                setYoutubeKey(youtubeVideo.key);
+            // I was unsure how to query for a specific movie, this should probably be fixed before the database gets too large
+            const response = await axios.get(`http://localhost:8000/api/get-movies?mid=${movie.mid}`);
+            console.log(response);
+            const thisMovie = response.data.movies.filter( (m) => m.mid == movie.mid );
+            if (thisMovie[0]) {
+                setYoutubeKey(getYouTubeVideoId(thisMovie[0].trailer));
                 setShowTrailer(true);
             } // if
         } catch (error) {
@@ -40,7 +58,7 @@ const MovieCard = ({movie}) => {
 
                     <div className='movie-poster-back'>
                         <img onClick={handlePosterFlip} src={moviePosterImage} alt={movie.title} className='movie-poster' />
-                        <button onClick={handleTrailer} className='CTA-button-one'>Watch trailer</button>
+                        <button onClick={(event) => handleTrailer(event, movie)} className='CTA-button-one'>Watch trailer</button>
                         <button className='CTA-button-one'>Movie info</button>
                         <button className='CTA-button-one'>Book tickets</button>
                     </div>
